@@ -1,4 +1,4 @@
-import React, { memo, VFC } from 'react'
+import React, { memo, useContext, VFC } from 'react'
 import styled from 'styled-components';
 
 // Reactスライダー
@@ -13,17 +13,32 @@ import SrFourth from '../../images/sr400-forth.jpeg'
 import LampImage from '../../images/lamp_cycle.jpeg'
 import ShirtImage from '../../images/lamp-t.jpeg'
 import ShirtsImage from '../../images/lamp-tunagi.jpeg'
+import { Link } from 'react-router-dom';
+import { LoginUserContext } from '../../App';
+import { useSignOut } from '../../hooks/useSignOut';
 
 const Header = styled.header`
   border-bottom: 1px solid rgb(247 244 244);
 `
 const Container = styled.div`
   padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
 `
 const AppTitle = styled.h2`
   margin: 0;
 `
-
+const HeaderItemsWrapper = styled.div`
+  display: flex;
+`
+const HeaderItem = styled.p`
+  margin: 0 0 0 15px;
+  padding: 7px;
+  &:hover {
+    background-color: rgb(247 244 244);
+    cursor: pointer;
+  }
+`
 const ImagesWrapper = styled.div`
   padding: 40px 0 60px 0;
   width: 700px;
@@ -92,8 +107,10 @@ const ProductPrice = styled.p`
   font-weight: bold;
 `
 
-
 export const TopPage: VFC = memo(() => {
+  const { currentUser } = useContext(LoginUserContext)
+  const { signOut }     = useSignOut()
+  
   const settings = {
     dots: true,
     infinite: true,
@@ -103,11 +120,32 @@ export const TopPage: VFC = memo(() => {
     slidesToScroll: 1,
     arrow:	true
   };
+  
+
   return (
     <>
       <Header>
         <Container>
           <AppTitle>LampCycle</AppTitle>
+          <HeaderItemsWrapper>
+            {!currentUser ? (
+              <>
+                <Link to="/sign_up" style={{ color: "black", textDecoration: "none"}}>
+                  <HeaderItem>新規登録</HeaderItem>
+                </Link>
+                <Link to="/sign_in" style={{ color: "black", textDecoration: "none"}}>
+                  <HeaderItem>ログイン</HeaderItem>
+                </Link>
+              </>
+              )
+              : (
+                <>
+                  <HeaderItem>{currentUser.name}</HeaderItem>
+                  <HeaderItem onClick={signOut}>ログアウト</HeaderItem>
+                </>
+              )
+            }
+          </HeaderItemsWrapper>
         </Container>  
       </Header>
       <ImagesWrapper>

@@ -7,13 +7,13 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  VALID_PHONENUMBER_REGEX = /\A\d{10}$|^\d{11}\z/
+  VALID_EMAIL = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  VALID_PHONENUMBER = /\A\d{10}$|^\d{11}\z/
+  VALID_POST_CODE = /\A\d{7}\z/
 
-  validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
+  validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL }
   validates :name, presence: true
-  validates :phone_number, presence: true, format: { with: VALID_PHONENUMBER_REGEX }
-  validates :post_code, presence: true
+  validates :phone_number, presence: true, format: { with: VALID_PHONENUMBER }
+  validates :post_code, presence: true, format: { with: VALID_POST_CODE }
   validates :address, presence: true
-  validates :building_name, presence: true
 end
