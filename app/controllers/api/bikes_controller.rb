@@ -2,9 +2,9 @@ class Api::BikesController < ApplicationController
 
   def index
     bikes = Bike.all
-    render json: bikes
+    render json: bikes, methods: [:image_url]
   end
-  
+
   def create
     bike.create(bike_params)
     render json: { status: "ok", error_message: bike.errors }
@@ -23,6 +23,6 @@ class Api::BikesController < ApplicationController
 
   private
   def bike_params
-    params.require(:bike).permit(:name, :maker, :weight, :lent_out)
+    params.require(:bike).permit(:name, :maker, :weight, :lent_out, :image)
   end
 end
