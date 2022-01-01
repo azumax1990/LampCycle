@@ -1,5 +1,6 @@
 import React, { createContext, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BikePost } from './components/pages/BikePost';
 import { SignInPage } from './components/pages/SignInPage';
 import { SignUpPage } from './components/pages/SignUpPage';
 
@@ -35,6 +36,9 @@ function App() {
         </Routes>
         <Routes>
           <Route path="/" element={<TopPage />}/>
+        </Routes>
+        <Routes>
+          <Route path="/bike_post" element={<BikePost />}/>
         </Routes>
       </BrowserRouter>
     </LoginUserContext.Provider>
