@@ -31,3 +31,12 @@ export type User = {
   created_at:          Date;
   updated_at:          Date;
 }
+
+export type PostBike = {
+  name:   string,
+  maker:  string,
+  weight: string,
+  image:  { data: string,
+            name: string
+          }
+}

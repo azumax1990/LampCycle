@@ -4,6 +4,9 @@ import { makers, weights } from '../../data'
 
 import { Header } from '../organisms/header/Header'
 import { SubmitButton } from '../atoms/SubmitButton' 
+import { PostBike } from '../../types'
+import { usePostBike } from '../../hooks/usePostBike'
+import { useForm } from 'react-hook-form'
 
 const MainSection = styled.section`
   width: 640px;
@@ -17,6 +20,7 @@ const PageTitle = styled.h1`
 const MainSectionContainer = styled.div`
   padding: 20px 40px;
 `
+const Form = styled.form``
 const InputContainer = styled.div`
   padding-bottom: 25px;
 `
@@ -44,41 +48,55 @@ const SelectTag = styled.select`
 `
 const OptionTag = styled.option`
 `
+const ImageTag = styled.img`
+  width: 100%;
+  height: 200px;
+  padding-top: 20px;
+`
+const ResetButton = styled.button`
+  margin-left: auto;
+`
 
 export const BikePost: VFC = memo(() => {
+  const { onSubmitBike }           = usePostBike()
+  const { register, handleSubmit } = useForm<PostBike>();
+  const onSubmit = (data: PostBike) => onSubmitBike(data);
+
   return (
     <>
       <Header />
       <MainSection>
         <PageTitle>バイク登録</PageTitle>
         <MainSectionContainer>
-          <InputContainer>
-            <LabelTag htmlFor='name'>名前</LabelTag>
-            <InputTag id='name'/>
-          </InputContainer>
-          <InputContainer>
-            <LabelTag htmlFor='maker'>メーカー</LabelTag>
-            <SelectTag id='maker'>
-              {makers.map((maker, index) => (
-                <OptionTag key={index}>{maker}</OptionTag>
-                )
-              )}
-            </SelectTag>
-          </InputContainer>
-          <InputContainer>
-            <LabelTag htmlFor='weight'>排気量</LabelTag>
-            <SelectTag id='weight'>
-              {weights.map((weight, index) => (
-                <OptionTag key={index} value={weight}>{weight}</OptionTag>
-                )
-              )}
-            </SelectTag>
-          </InputContainer>
-          <InputContainer>
-            <LabelTag htmlFor='image'>写真</LabelTag>
-            <InputTag id='image' type="file"/>
-          </InputContainer>
-          <SubmitButton value={"登録"}/>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <InputContainer>
+              <LabelTag htmlFor='name'>名前</LabelTag>
+              <InputTag id='name' {...register("name")}/>
+            </InputContainer>
+            <InputContainer>
+              <LabelTag htmlFor='maker'>メーカー</LabelTag>
+              <SelectTag id='maker' {...register("maker")}>
+                {makers.map((maker, index) => (
+                  <OptionTag key={index} value={maker} >{maker}</OptionTag>
+                  )
+                )}
+              </SelectTag>
+            </InputContainer>
+            <InputContainer>
+              <LabelTag htmlFor='weight'>排気量</LabelTag>
+              <SelectTag id='weight'  {...register("weight")}>
+                {weights.map((weight, index) => (
+                  <OptionTag key={index} value={weight}>{weight}</OptionTag>
+                  )
+                )}
+              </SelectTag>
+            </InputContainer>
+            <InputContainer>
+              <LabelTag htmlFor='image'>写真</LabelTag>
+              <InputTag id='image' type="file"  {...register("image")}/>
+            </InputContainer>
+            <SubmitButton value={"登録"}  />
+          </Form>
         </MainSectionContainer>
       </MainSection>
     </>

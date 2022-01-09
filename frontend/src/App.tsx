@@ -1,4 +1,6 @@
 import React, { createContext, Dispatch, SetStateAction, useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { BikePost } from './components/pages/BikePost';
 import { SignInPage } from './components/pages/SignInPage';
@@ -24,6 +26,14 @@ function App() {
 
   useEffect(() => {
     getCurrentUser()
+    ?.then((res) => {
+      if (res.status === 200) {
+        setCurrentUser(res.data.user)
+      } else {
+        alert("ユーザーを取得出来ませんでした")
+      }
+    })
+    .catch((res) => console.log(res))
   }, [])
   return (
     <LoginUserContext.Provider value={{ loading, setLoading, currentUser, setCurrentUser }}>
