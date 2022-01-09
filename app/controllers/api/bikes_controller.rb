@@ -6,8 +6,8 @@ class Api::BikesController < ApplicationController
   end
 
   def create
-    bike.create(bike_params)
-    render json: { status: "ok", error_message: bike.errors }
+    bike = Bike.create(bike_params)
+    render json: { status: "ok" }
   end
 
   def edit
@@ -23,6 +23,6 @@ class Api::BikesController < ApplicationController
 
   private
   def bike_params
-    params.require(:bike).permit(:name, :maker, :weight, :lent_out, :image)
+    params.require(:bike).permit(:name, :maker, :weight, :image)
   end
 end

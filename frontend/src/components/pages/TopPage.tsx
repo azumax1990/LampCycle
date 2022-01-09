@@ -1,4 +1,4 @@
-import React, { memo, useContext, VFC } from 'react'
+import React, { memo, useContext, useEffect, VFC } from 'react'
 import styled from 'styled-components';
 
 // Reactスライダー
@@ -16,6 +16,7 @@ import ShirtsImage from '../../images/lamp-tunagi.jpeg'
 import { Link } from 'react-router-dom';
 import { LoginUserContext } from '../../App';
 import { useSignOut } from '../../hooks/useSignOut';
+import Cookies from 'js-cookie';
 
 const Header = styled.header`
   border-bottom: 1px solid rgb(247 244 244);
@@ -121,7 +122,6 @@ export const TopPage: VFC = memo(() => {
     arrow:	true
   };
   
-
   return (
     <>
       <Header>
@@ -130,19 +130,23 @@ export const TopPage: VFC = memo(() => {
           <HeaderItemsWrapper>
             {!currentUser ? (
               <>
-                <Link to="/sign_up" style={{ color: "black", textDecoration: "none"}}>
+                <Link to="/sign_up" style={{ color: "black", textDecoration: "none" }}>
                   <HeaderItem>新規登録</HeaderItem>
                 </Link>
-                <Link to="/sign_in" style={{ color: "black", textDecoration: "none"}}>
+                <Link to="/sign_in" style={{ color: "black", textDecoration: "none" }}>
                   <HeaderItem>ログイン</HeaderItem>
                 </Link>
               </>
               )
-              : (
+              : currentUser.name === "admin" ? (
                 <>
-                  <HeaderItem>{currentUser.name}</HeaderItem>
+                  <Link to="/bike_post" style={{ color: "black", textDecoration: "none" }}>
+                    <HeaderItem>バイク登録</HeaderItem>
+                  </Link>
                   <HeaderItem onClick={signOut}>ログアウト</HeaderItem>
                 </>
+              ) : (
+                <HeaderItem onClick={signOut}>ログアウト</HeaderItem>
               )
             }
           </HeaderItemsWrapper>
