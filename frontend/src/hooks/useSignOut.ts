@@ -16,7 +16,7 @@ export const useSignOut = () => {
     }})
     .then((res) => {
       if (res.status === 200) {
-        Cookies.remove("access_token")
+        Cookies.remove("access-token")
         Cookies.remove("client")
         Cookies.remove("uid")
         setCurrentUser(undefined)
